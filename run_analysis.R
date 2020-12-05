@@ -4,30 +4,30 @@ features <- as.character(features[,2])
 ##read features(future variable names)
 
 data.train.x <- read.table('./UCI HAR Dataset/train/X_train.txt')
-data.train.activity <- read.table('./UCI HAR Dataset/train/y_train.txt', header = FALSE, sep = ' ')
+data.train.y <- read.table('./UCI HAR Dataset/train/y_train.txt', header = FALSE, sep = ' ')
 data.train.subject <- read.table('./UCI HAR Dataset/train/subject_train.txt',header = FALSE, sep = ' ')
 ##read the activity, subject and xtrain in
 
-data.train <-  data.frame(data.train.subject, data.train.activity, data.train.x)
+data.train <-  data.frame(data.train.subject, data.train.y, data.train.x)
 ##combining them
 
 names(data.train) <- c(c('subject', 'activity'), features)
 ##attach the names to the variables 
 
 data.test.x <- read.table('./UCI HAR Dataset/test/X_test.txt')
-data.test.activity <- read.table('./UCI HAR Dataset/test/y_test.txt', header = FALSE, sep = ' ')
+data.test.y <- read.table('./UCI HAR Dataset/test/y_test.txt', header = FALSE, sep = ' ')
 data.test.subject <- read.table('./UCI HAR Dataset/test/subject_test.txt', header = FALSE, sep = ' ')
 
-data.test <-  data.frame(data.test.subject, data.test.activity, data.test.x)
+data.test <-  data.frame(data.test.subject, data.test.y, data.test.x)
 names(data.test) <- c(c('subject', 'activity'), features)
 ##same thing for the test data, reading in and label with varibale names
 
-data.all <- rbind(data.train, data.test)
+data <- rbind(data.train, data.test)
 ##merge the training and test data together 
 
-mean_std.select <- grep('mean|std', names(data.all))
+mean_std<- grep('mean|std', names(data))
 ##return the number of the columns that with names containing mean or std
-data.sub <- data.all[,c(1,2,mean_std.select)]
+data.sub <- data[,c(1,2,mean_std)]
 ##select the columns with mean or std in the variable names
 
 activity.labels <- read.table('./UCI HAR Dataset/activity_labels.txt', header = FALSE)
